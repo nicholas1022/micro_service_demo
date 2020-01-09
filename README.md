@@ -1,5 +1,4 @@
 # micro_service_demo
-Micro service demo by Spring Rest
 This is a micro service application demo by Spring Rest
 It implements simply account function such as:
 1. Create a new account 
