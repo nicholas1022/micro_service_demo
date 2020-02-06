@@ -8,22 +8,19 @@ public class TransferAccountBean {
 	private BigInteger fromId;
 	private BigInteger toId;
 	private BigDecimal amount;
-	private BigDecimal fromBalance;
-	private BigDecimal toBalance;
 	
 	
 	public TransferAccountBean() {
 	}
+	
+	public TransferAccountBean(BigInteger fromId, BigInteger toId, BigDecimal amount) {
 
-
-	public TransferAccountBean(BigInteger fromId, BigInteger toId, BigDecimal amount, BigDecimal fromBalance,
-			BigDecimal toBalance) {
 		this.fromId = fromId;
 		this.toId = toId;
 		this.amount = amount;
-		this.fromBalance = fromBalance;
-		this.toBalance = toBalance;
+
 	}
+
 
 
 	public BigInteger getFromId() {
@@ -56,34 +53,10 @@ public class TransferAccountBean {
 	}
 
 
-	public BigDecimal getFromBalance() {
-		return fromBalance;
-	}
-
-
-	public void setFromBalance(BigDecimal fromBalance) {
-		this.fromBalance = fromBalance;
-	}
-
-
-	public BigDecimal getToBalance() {
-		return toBalance;
-	}
-
-
-	public void setToBalance(BigDecimal toBalance) {
-		this.toBalance = toBalance;
-	}
-
-
 	@Override
 	public String toString() {
-		return "TransferAccountBean [fromId=" + fromId + ", toId=" + toId + ", amount=" + amount + ", fromBalance="
-				+ fromBalance + ", toBalance=" + toBalance + "]";
+		return "TransferAccountBean [fromId=" + fromId + ", toId=" + toId + ", amount=" + amount + "]";
 	}
-
-	
-	
 	
 
 }
