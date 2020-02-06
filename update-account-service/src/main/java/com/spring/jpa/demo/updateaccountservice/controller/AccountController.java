@@ -1,37 +1,75 @@
 package com.spring.jpa.demo.updateaccountservice.controller;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import com.spring.jpa.demo.updateaccountservice.controller.AccountNotFoundException;
+import com.spring.jpa.demo.updateaccountservice.controller.AccountErrorResponse;
 import com.spring.jpa.demo.updateaccountservice.entity.Account;
+import com.spring.jpa.demo.updateaccountservice.entity.AccountBean;
 import com.spring.jpa.demo.updateaccountservice.repository.AccountRepository;
 
 @RestController
-@RequestMapping("/account")
 public class AccountController {
 	
 	@Autowired
 	AccountRepository accountRepository;
 	
-	@PutMapping("/{id}/{ownerName}/{balance}")
-	public Account updateAccount(@PathVariable BigInteger id, @PathVariable(value = "ownerName") String name, @PathVariable BigDecimal balance) {
+	RestTemplate restTemplate = new RestTemplate();
+	
+	@PutMapping("/update/account")
+	public AccountBean updateAccount(@RequestBody Account theAccount) {
 		
-		Account account = new Account();
+		Optional<Account> account = accountRepository.findById(theAccount.getId());
 		
-		account.setId(id);
 		
-		account.setOwnerName(name);
+		if(!account.isPresent()) {
+			throw new AccountNotFoundException("Account ID not found - " + theAccount.getId());
+		}
 		
-		account.setBalance(balance);
+		accountRepository.save(theAccount);
 		
-		return accountRepository.save(account);
+		return new AccountBean(true, theAccount.getId(), theAccount.getOwnerName(), theAccount.getBalance());
 		
+	}
+	
+
+	
+	@ExceptionHandler
+	public ResponseEntity<AccountErrorResponse> handleException (AccountNotFoundException e){
+		
+		AccountErrorResponse error = new AccountErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value());
+		
+		error.setMessage(e.getMessage());
+		
+		error.setTimeStamp(System.currentTimeMillis());
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<AccountErrorResponse> handleException (Exception e){
+		
+		AccountErrorResponse error = new AccountErrorResponse();
+		
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		
+		error.setMessage(e.getMessage());
+		
+		error.setTimeStamp(System.currentTimeMillis());
+		
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 }

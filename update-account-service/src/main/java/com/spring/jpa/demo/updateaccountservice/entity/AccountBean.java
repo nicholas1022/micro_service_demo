@@ -1,4 +1,4 @@
-package com.spring.jpa.demo.accounts.entity;
+package com.spring.jpa.demo.updateaccountservice.entity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,7 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Accounts")
-public class Account {
+public class AccountBean {
+	
+	private boolean success = false;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +27,25 @@ public class Account {
 	@Column(name="balance")
 	private BigDecimal balance;
 	
-	public Account() {
+	public AccountBean() {
 		
 	}
 	
-	public Account(String ownerName, BigDecimal balance) {
+	public AccountBean(boolean success, BigInteger Id, String ownerName, BigDecimal balance) {
+		this.success = success;
+		this.Id = Id;
 		this.ownerName = ownerName;
 		this.balance = balance;
+	}
+	
+	
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public BigInteger getId() {
@@ -60,7 +74,12 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [Id=" + Id + ", ownerName=" + ownerName + ", balance=" + balance + "]";
+		return "AccountBean [success=" + success + ", Id=" + Id + ", ownerName=" + ownerName + ", balance=" + balance
+				+ "]";
 	}
+	
+	
+
+
 
 }

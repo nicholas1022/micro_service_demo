@@ -28,10 +28,12 @@ public class Account {
 		
 	}
 	
+	
 	public Account(String ownerName, BigDecimal balance) {
 		this.ownerName = ownerName;
 		this.balance = balance;
 	}
+	
 
 	public BigInteger getId() {
 		return Id;
