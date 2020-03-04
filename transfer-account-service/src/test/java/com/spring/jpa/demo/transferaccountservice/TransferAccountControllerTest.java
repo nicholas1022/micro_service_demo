@@ -24,9 +24,9 @@ class TransferAccountControllerTest extends TransferAccountController{
 		
 		BigInteger toId = new BigInteger("2");
 		
-		AccountBean fromResponse = updateProxy.findAccount(new BigInteger("1"));
+		Account fromResponse = updateProxy.findAccount(new BigInteger("1"));
 		
-		AccountBean toResponse = updateProxy.findAccount(new BigInteger("2"));
+		Account toResponse = updateProxy.findAccount(new BigInteger("2"));
 		
 		BigDecimal amount = new BigDecimal("1");
 		
@@ -40,9 +40,9 @@ class TransferAccountControllerTest extends TransferAccountController{
 		
 		String toName = toResponse.getOwnerName();
 		
-		updateProxy.updateAccount(fromId, fromName, fromAfterBalance);
+		updateProxy.updateAccount(new Account(fromName, fromAfterBalance));
 		
-		updateProxy.updateAccount(toId, toName, toBalance);
+		updateProxy.updateAccount(new Account(toName, toBalance));
 		
 		assertEquals(fromBeforeBalance.subtract(amount), updateProxy.findAccount(fromId).getBalance(), "Original balance - transfer amount should be equal to completed balance of transfer out account");
 	
