@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.jpa.demo.transferaccountservice.AccountNotFoundException;
-import com.spring.jpa.demo.transferaccountservice.Account;
-
 
 @RestController
 public class TransferAccountController {
@@ -58,6 +55,8 @@ public class TransferAccountController {
 			}else if(amount.compareTo(new BigDecimal("0"))<=0) {
 				
 				throw new AmountLessThanZeroException("Transfer amount must be greater than zero");
+			}else if(fromId.compareTo(toId)==0) {
+				throw new TransferToIdenticalAccountException("Unable to transfer amount to same account");
 			}
 			
 			Account fromResponse = findFromProxy.findAccount(fromId);
