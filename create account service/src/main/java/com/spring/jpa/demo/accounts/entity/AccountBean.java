@@ -21,8 +21,8 @@ public class AccountBean {
 	@Column(name="id")
 	private BigInteger Id;
 	
-	@Column(name="owner_name")
-	private String ownerName;
+	@Column(name="customer_code")
+	private BigInteger customerCode;
 	
 	@Column(name="balance")
 	private BigDecimal balance;
@@ -31,10 +31,10 @@ public class AccountBean {
 		
 	}
 	
-	public AccountBean(boolean success, BigInteger Id, String ownerName, BigDecimal balance) {
+	public AccountBean(boolean success, BigInteger Id, BigInteger customerCode, BigDecimal balance) {
 		this.success = success;
 		this.Id = Id;
-		this.ownerName = ownerName;
+		this.customerCode = customerCode;
 		this.balance = balance;
 	}
 	
@@ -56,12 +56,12 @@ public class AccountBean {
 		Id = id;
 	}
 
-	public String getOwnerName() {
-		return ownerName;
+	public BigInteger getCustomerCode() {
+		return customerCode;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setCustomerCode(BigInteger customerCode) {
+		this.customerCode = customerCode;
 	}
 
 	public BigDecimal getBalance() {
@@ -74,7 +74,7 @@ public class AccountBean {
 
 	@Override
 	public String toString() {
-		return "AccountBean [success=" + success + ", Id=" + Id + ", ownerName=" + ownerName + ", balance=" + balance
+		return "AccountBean [success=" + success + ", Id=" + Id + ", ownerName=" + customerCode + ", balance=" + balance
 				+ "]";
 	}
 

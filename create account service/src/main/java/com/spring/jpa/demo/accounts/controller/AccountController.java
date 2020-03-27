@@ -22,9 +22,10 @@ public class AccountController {
 	@PostMapping("/createAccount")
 	public AccountBean createAccount(@RequestBody Account theAccount) {
 		
-		Account account = accountRepository.save(theAccount);
+		Account account = accountRepository.saveAndFlush(theAccount);
 		
-	    return new AccountBean(true, account.getId(), account.getOwnerName(), account.getBalance());
+		
+	    return new AccountBean(true, account.getId(), account.getCustomerCode(), account.getBalance());
 	}
 	
 	

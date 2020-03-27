@@ -1,4 +1,4 @@
-package com.spring.jpa.demo.transferaccountservice;
+package com.spring.jpa.demo.transferaccountservice.entity;
 
 public class AccountErrorResponse {
 	
