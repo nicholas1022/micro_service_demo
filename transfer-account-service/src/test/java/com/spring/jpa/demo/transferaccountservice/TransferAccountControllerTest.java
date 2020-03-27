@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.spring.jpa.demo.transferaccountservice.controller.TransferAccountController;
+import com.spring.jpa.demo.transferaccountservice.entity.Account;
+import com.spring.jpa.demo.transferaccountservice.repository.UpdateAccountServiceProxy;
+
 
 @SpringBootTest
 class TransferAccountControllerTest extends TransferAccountController{
@@ -22,7 +26,7 @@ class TransferAccountControllerTest extends TransferAccountController{
 	void fromAccountTest() {
 		BigInteger fromId = new BigInteger("1");
 		
-		BigInteger toId = new BigInteger("2");
+		//BigInteger toId = new BigInteger("2");
 		
 		Account fromResponse = updateProxy.findAccount(new BigInteger("1"));
 		
@@ -36,13 +40,13 @@ class TransferAccountControllerTest extends TransferAccountController{
 		
 		BigDecimal toBalance = toResponse.getBalance().add(amount);
 		
-		String fromName = fromResponse.getOwnerName();
+		BigInteger fromCode = fromResponse.getCustomerCode();
 		
-		String toName = toResponse.getOwnerName();
+		BigInteger toCode = toResponse.getCustomerCode();
 		
-		updateProxy.updateAccount(new Account(fromName, fromAfterBalance));
+		updateProxy.updateAccount(new Account(fromCode, fromAfterBalance));
 		
-		updateProxy.updateAccount(new Account(toName, toBalance));
+		updateProxy.updateAccount(new Account(toCode, toBalance));
 		
 		assertEquals(fromBeforeBalance.subtract(amount), updateProxy.findAccount(fromId).getBalance(), "Original balance - transfer amount should be equal to completed balance of transfer out account");
 	

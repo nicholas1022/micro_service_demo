@@ -1,4 +1,4 @@
-package com.spring.jpa.demo.transferaccountservice;
+package com.spring.jpa.demo.transferaccountservice.entity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -20,8 +20,8 @@ public class Account {
 	@Column(name="id")
 	private BigInteger Id;
 	
-	@Column(name="owner_name")
-	private String ownerName;
+	@Column(name="customer_code")
+	private BigInteger customerCode;
 	
 	@Column(name="balance")
 	private BigDecimal balance;
@@ -30,8 +30,8 @@ public class Account {
 		
 	}
 	
-	public Account(String ownerName, BigDecimal balance) {
-		this.ownerName = ownerName;
+	public Account(BigInteger customerCode, BigDecimal balance) {
+		this.customerCode = customerCode;
 		this.balance = balance;
 	}
 
@@ -43,12 +43,12 @@ public class Account {
 		Id = id;
 	}
 
-	public String getOwnerName() {
-		return ownerName;
+	public BigInteger getCustomerCode() {
+		return customerCode;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setOwnerName(BigInteger customerCode) {
+		this.customerCode = customerCode;
 	}
 
 	public BigDecimal getBalance() {
@@ -61,7 +61,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [Id=" + Id + ", ownerName=" + ownerName + ", balance=" + balance + "]";
+		return "Account [Id=" + Id + ", ownerName=" + customerCode + ", balance=" + balance + "]";
 	}
 
 }

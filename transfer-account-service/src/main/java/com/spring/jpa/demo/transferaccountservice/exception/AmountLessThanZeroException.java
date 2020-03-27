@@ -1,4 +1,4 @@
-package com.spring.jpa.demo.transferaccountservice;
+package com.spring.jpa.demo.transferaccountservice.exception;
 
 public class AmountLessThanZeroException extends RuntimeException{
 

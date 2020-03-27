@@ -38,7 +38,7 @@ public class AccountController {
 		
 		accountRepository.save(theAccount);
 		
-		return new AccountBean(true, theAccount.getId(), theAccount.getOwnerName(), theAccount.getBalance());
+		return new AccountBean(true, theAccount.getId(), theAccount.getCustomerCode(), theAccount.getBalance());
 		
 	}
 	

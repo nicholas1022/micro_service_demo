@@ -13,15 +13,15 @@ import javax.persistence.Table;
 @Table(name="Accounts")
 public class AccountBean {
 	
-	private boolean success;
+	private boolean success = false;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private BigInteger Id;
 	
-	@Column(name="owner_name")
-	private String ownerName;
+	@Column(name="customer_code")
+	private BigInteger customerCode;
 	
 	@Column(name="balance")
 	private BigDecimal balance;
@@ -30,32 +30,27 @@ public class AccountBean {
 		
 	}
 	
-	
-	public AccountBean(Boolean success, BigInteger id, String ownerName, BigDecimal balance) {
+	public AccountBean(boolean success, BigInteger Id, BigInteger customerCode, BigDecimal balance) {
 		this.success = success;
-		this.Id = id;
-		this.ownerName = ownerName;
+		this.Id = Id;
+		this.customerCode = customerCode;
 		this.balance = balance;
 	}
 	
 	public AccountBean(Boolean success, Account account) {
 		this.success = success;
 		this.Id = account.getId();
-		this.ownerName = account.getOwnerName();
+		this.customerCode = account.getCustomerCode();
 		this.balance = account.getBalance();
 	}
-	
-	
 
 	public boolean isSuccess() {
 		return success;
 	}
 
-
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-
 
 	public BigInteger getId() {
 		return Id;
@@ -65,12 +60,12 @@ public class AccountBean {
 		Id = id;
 	}
 
-	public String getOwnerName() {
-		return ownerName;
+	public BigInteger getCustomerCode() {
+		return customerCode;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setCustomerCode(BigInteger customerCode) {
+		this.customerCode = customerCode;
 	}
 
 	public BigDecimal getBalance() {
@@ -83,7 +78,9 @@ public class AccountBean {
 
 	@Override
 	public String toString() {
-		return "Account [success=" + success + ", Id=" + Id + ", ownerName=" + ownerName + ", balance=" + balance + "]";
+		return "AccountBean [success=" + success + ", Id=" + Id + ", ownerName=" + customerCode + ", balance=" + balance
+				+ "]";
 	}
 
+	
 }

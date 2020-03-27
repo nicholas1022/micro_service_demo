@@ -1,4 +1,4 @@
-package com.spring.jpa.demo.transferaccountservice;
+package com.spring.jpa.demo.transferaccountservice.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,6 +12,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.jpa.demo.transferaccountservice.entity.Account;
+import com.spring.jpa.demo.transferaccountservice.entity.AccountErrorResponse;
+import com.spring.jpa.demo.transferaccountservice.entity.TransferAccountBean;
+import com.spring.jpa.demo.transferaccountservice.entity.TransferAccountResponse;
+import com.spring.jpa.demo.transferaccountservice.exception.AccountNotFoundException;
+import com.spring.jpa.demo.transferaccountservice.exception.AmountLessThanZeroException;
+import com.spring.jpa.demo.transferaccountservice.exception.BalanceLessThanAmountException;
+import com.spring.jpa.demo.transferaccountservice.exception.TransferToIdenticalAccountException;
+import com.spring.jpa.demo.transferaccountservice.repository.FindAccountRepository;
+import com.spring.jpa.demo.transferaccountservice.repository.UpdateAccountServiceProxy;
+
 
 @RestController
 public class TransferAccountController {
@@ -20,16 +31,7 @@ public class TransferAccountController {
 	private FindAccountRepository accountRepository;
 	
 	@Autowired
-	private UpdateAccountServiceProxy addProxy;
-	
-	@Autowired
-	private UpdateAccountServiceProxy substractProxy;
-	
-	@Autowired
-	private UpdateAccountServiceProxy findFromProxy;
-	
-	@Autowired
-	private UpdateAccountServiceProxy findToProxy;
+	private UpdateAccountServiceProxy accountServiceProxy;
 	
 	@PutMapping("transfer/account")
 	public TransferAccountResponse transferAccountFeign(@RequestBody TransferAccountBean theTransferAccountBean) {
@@ -55,13 +57,16 @@ public class TransferAccountController {
 			}else if(amount.compareTo(new BigDecimal("0"))<=0) {
 				
 				throw new AmountLessThanZeroException("Transfer amount must be greater than zero");
+				
 			}else if(fromId.compareTo(toId)==0) {
+				
 				throw new TransferToIdenticalAccountException("Unable to transfer amount to same account");
+				
 			}
 			
-			Account fromResponse = findFromProxy.findAccount(fromId);
+			Account fromResponse = accountServiceProxy.findAccount(fromId);
 			
-			Account toResponse = findToProxy.findAccount(toId);
+			Account toResponse = accountServiceProxy.findAccount(toId);
 			
 			if(fromResponse.getBalance().compareTo(amount)<0) {
 				
@@ -77,9 +82,9 @@ public class TransferAccountController {
 			
 			toResponse.setBalance(afterTransToBalance);
 			
-			substractProxy.updateAccount(fromResponse);
+			accountServiceProxy.updateAccount(fromResponse);
 			
-			addProxy.updateAccount(toResponse);
+			accountServiceProxy.updateAccount(toResponse);
 			
 			TransferAccountResponse transferAccount = new TransferAccountResponse(true, fromResponse.getId(), toResponse.getId(), amount, fromResponse.getBalance(), toResponse.getBalance());
 			

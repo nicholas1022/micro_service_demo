@@ -1,10 +1,11 @@
-package com.spring.jpa.demo.transferaccountservice;
+package com.spring.jpa.demo.transferaccountservice.entity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class TransferAccount {
+public class TransferAccountResponse {
 	
+	private boolean success = false;
 	private BigInteger fromId;
 	private BigInteger toId;
 	private BigDecimal amount;
@@ -12,17 +13,27 @@ public class TransferAccount {
 	private BigDecimal toBalance;
 	
 	
-	public TransferAccount() {
+	public TransferAccountResponse() {
 	}
+	
 
-
-	public TransferAccount(BigInteger fromId, BigInteger toId, BigDecimal amount, BigDecimal fromBalance,
-			BigDecimal toBalance) {
+	public TransferAccountResponse(boolean success, BigInteger fromId, BigInteger toId, BigDecimal amount, BigDecimal fromBalance, BigDecimal toBalance) {
+		this.success = success;
 		this.fromId = fromId;
 		this.toId = toId;
 		this.amount = amount;
 		this.fromBalance = fromBalance;
 		this.toBalance = toBalance;
+	}
+	
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 
@@ -78,12 +89,12 @@ public class TransferAccount {
 
 	@Override
 	public String toString() {
-		return "TransferAccountBean [fromId=" + fromId + ", toId=" + toId + ", amount=" + amount + ", fromBalance="
-				+ fromBalance + ", toBalance=" + toBalance + "]";
+		return "TransferAccountResponse [success=" + success + ", fromId=" + fromId + ", toId=" + toId + ", amount="
+				+ amount + ", fromBalance=" + fromBalance + ", toBalance=" + toBalance + "]";
 	}
 
-	
-	
+
+
 	
 
 }
